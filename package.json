@@ -42,7 +42,6 @@
     "typings": "^0.8.1"
   },
   "dependencies": {
-    "client-oauth2": "^2.2.0",
-    "q": "^1.4.1"
+    "ts-client-openidconnect": "git+https://github.com/jvitor83/ts-client-openidconnect.git"
   }
 }

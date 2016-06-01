@@ -10,7 +10,6 @@
     "node": "registry:dt/node#4.0.0+20160412142033",
     "oidc-token-manager": "registry:dt/oidc-token-manager#0.0.0+20160505172800",
     "orchestrator": "registry:dt/orchestrator#0.0.0+20160316155526",
-    "q": "registry:dt/q#0.0.0+20160417152954",
     "systemjs": "registry:dt/systemjs#0.18.4+20160417155658",
     "typescript": "registry:dt/typescript#0.4.0+20160317120654"
   },

@@ -1,7 +1,5 @@
 import { IAuthenticationSettings } from './IAuthenticationSettings';
 import { IAuthenticationManagerSettings } from './IAuthenticationManagerSettings';
-import * as Q from 'q';
-import 'client-oauth2';
 /**
  * AuthenticationInitializer
  */
@@ -29,7 +27,7 @@ export declare class AuthenticationContext {
     Login(openOnPopUp?: boolean): void;
     IsAuthenticated: boolean;
     TokensContents: TokensContents;
-    protected AccessTokenContent: Q.IPromise<string>;
+    protected AccessTokenContent: any;
 }
 export declare class TokensContents {
     IsAuthenticated: boolean;

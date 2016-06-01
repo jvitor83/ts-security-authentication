@@ -2,9 +2,12 @@ import { IAuthenticationSettings } from './IAuthenticationSettings';
 import { IAuthenticationManagerSettings } from './IAuthenticationManagerSettings';
 //require('oidc-token-manager');
 //import 'oidc-token-manager/dist/oidc-token-manager.js';
-import * as Q from 'q';
+//import * as Q from 'q';
 //import 'oidc-token-manager';
-import 'client-oauth2';
+//import 'client-oauth2';
+
+import * as OpenIDConnectClient from 'ts-client-openidconnect';
+
 
 
 /**
@@ -41,14 +44,14 @@ export class AuthenticationContext
         AuthenticationContext._current = null;
     }
 
-    private clientOAuth2: ClientOAuth2;
+    private clientOAuth2: OpenIDConnectClient.ClientOAuth2;
         
     constructor() 
     {
         let authenticationSettingsLoadedFromStorage = this.AuthenticationManagerSettings;
         if(authenticationSettingsLoadedFromStorage != null)
         {
-            this.clientOAuth2 = new ClientOAuth2( authenticationSettingsLoadedFromStorage );
+            this.clientOAuth2 = new OpenIDConnectClient.ClientOAuth2( authenticationSettingsLoadedFromStorage );
         }
     }
     
@@ -115,7 +118,7 @@ export class AuthenticationContext
             scopes: this.AuthenticationManagerSettings.scope.split(' ')
         };
         
-        this.clientOAuth2 = new ClientOAuth2(settings);
+        this.clientOAuth2 = new OpenIDConnectClient.ClientOAuth2(settings);
     }
     
     protected ProcessTokenIfNeeded()
@@ -239,49 +242,22 @@ export class AuthenticationContext
     public get TokensContents() : TokensContents
     {
         let tokenContents = new TokensContents();
-        
+            
         tokenContents.AccessTokenContent = this.AccessTokenContent;
-        // tokenContents.IdentityTokenContent = this.IdentityTokenContent;
-        // tokenContents.ProfileContent = this.ProfileContent;
-        
+
         return tokenContents;
     }
 
-    protected get AccessTokenContent(): Q.IPromise<string> 
+    protected get AccessTokenContent(): any 
     {
-        let defer = Q.defer<any>();
-        
         if (this.clientOAuth2 != null)
         {
             let tokenUri = localStorage.getItem('TokenUri');
             
-            this.clientOAuth2.token.getToken(tokenUri).then((user : ClientOAuth2Token) => {
-                //console.log(user); //=> { accessToken: '...', tokenType: 'bearer', ... }
-                
-                //     // Make a request to the github API for the current user.
-                //     user.request({
-                //         method: 'get',
-                //         url: 'https://api.github.com/user'
-                // }).then(function (res) {
-                //     console.log(res) //=> { body: { ... }, status: 200, headers: { ... } }
-                // });
-                console.log(user.accessToken);
-                
-                if(user != null && user.accessToken != null)
-                {
-                    let json = JSON.parse(atob(user.accessToken.split('.')[1]));
-                    defer.resolve(json);
-                }
-                else
-                {
-                    defer.reject('Token not found!');
-                }
-                
-            });
-          
+            let clientOAuth2Token = this.clientOAuth2.token.getToken(tokenUri);
+            
+            return clientOAuth2Token.accessToken;          
         }
-        
-        return defer.promise;
     }
     
     // protected get IdentityTokenContent(): any
