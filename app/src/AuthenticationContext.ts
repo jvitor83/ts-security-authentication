@@ -94,7 +94,7 @@ export class AuthenticationContext
             response_type: authenticationSettings.response_type,
             scope: authenticationSettings.scope,
             
-            redirect_uri : authenticationSettings.client_url + '?callback=true',
+            redirect_uri : authenticationSettings.client_url,
             silent_redirect_uri: authenticationSettings.client_url + "?silentrefreshframe=true",
             post_logout_redirect_uri: authenticationSettings.client_url,
             
