@@ -254,10 +254,14 @@ export class AuthenticationContext
         {
             let tokenUri = localStorage.getItem('TokenUri');
             
-            let clientOAuth2Token = this.clientOAuth2.token.getToken(tokenUri);
-            
-            return clientOAuth2Token.accessToken;          
+            if(tokenUri != null)
+            {
+                let clientOAuth2Token = this.clientOAuth2.token.getToken(tokenUri);
+                return clientOAuth2Token.accessToken;
+            }
+            return null;
         }
+        return null;
     }
     
     // protected get IdentityTokenContent(): any
