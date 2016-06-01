@@ -1,5 +1,5 @@
 {
-  "name": "ts-security-authentication-web",
+  "name": "ts-security-authentication",
   "version": "1.0.0",
   "description": "A lightweight Typescript Security Authentication Framework (based on OIDC Manager).",
   "main": "dist/prod/js/src/index.js",
