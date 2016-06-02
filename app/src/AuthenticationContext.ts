@@ -245,6 +245,8 @@ export class AuthenticationContext
         let tokenContents = new TokensContents();
             
         tokenContents.AccessTokenContent = this.AccessTokenContent;
+        tokenContents.IdentityTokenContent = this.IdentityTokenContent;
+        tokenContents.ProfileContent = this.ProfileContent;
 
         return tokenContents;
     }
@@ -269,7 +271,7 @@ export class AuthenticationContext
     {
         if (this.AccessToken != null)
         {
-            let content = btoa(this.AccessToken.split('.')[1]);
+            let content = atob(this.AccessToken.split('.')[1]);
             let retorno = JSON.parse(content);
             return retorno;
         }
@@ -296,7 +298,7 @@ export class AuthenticationContext
     {
         if (this.IdentityToken != null)
         {
-            let content = btoa(this.IdentityToken.split('.')[1]);
+            let content = atob(this.IdentityToken.split('.')[1]);
             let retorno = JSON.parse(content);
             return retorno;
         }
