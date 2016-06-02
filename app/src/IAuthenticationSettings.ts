@@ -1,11 +1,11 @@
 export interface IAuthenticationSettings
 {
     authority: string;
-    client_id: string;
-    scope?: string;
+    clientId: string;
+    clientSecret: string;
+    scope?: Array<string>;
     response_type?: string;
     
     client_url?: string;
     
-    open_on_popup?: boolean;
 }

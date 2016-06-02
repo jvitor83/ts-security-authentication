@@ -73,53 +73,30 @@ export class AuthenticationContext
     
     protected Initialize(authenticationSettings: IAuthenticationSettings)
     {
-        if(authenticationSettings.authority == null || authenticationSettings.client_id == null)
+        if(authenticationSettings.authority == null || authenticationSettings.clientId == null)
         {
             throw "Should be informed at least 'authority' and 'client_id'!";
         }
         
         //Set default values if not informed
         authenticationSettings.client_url = authenticationSettings.client_url || location.href; //Self uri
-        authenticationSettings.scope = authenticationSettings.scope || 'openid profile email offline_access'; //OpenId default scopes
+        authenticationSettings.scope = authenticationSettings.scope || [ 'openid', 'profile', 'email', 'offline_access' ]; //OpenId default scopes
         authenticationSettings.response_type = authenticationSettings.response_type || 'code id_token token'; //Hybrid flow at default
-        authenticationSettings.open_on_popup = authenticationSettings.open_on_popup || false; //Redirect for default
+        //authenticationSettings.open_on_popup = authenticationSettings.open_on_popup || false; //Redirect for default
 
-        //Convert to the more complete IAuthenticationManagerSettings
         this.AuthenticationManagerSettings = 
         {
-            authority: authenticationSettings.authority,
-            client_id: authenticationSettings.client_id,
-            client_url: authenticationSettings.client_url,
-            open_on_popup: authenticationSettings.open_on_popup,
-            response_type: authenticationSettings.response_type,
-            scope: authenticationSettings.scope,
-            
-            redirect_uri : authenticationSettings.client_url,
-            silent_redirect_uri: authenticationSettings.client_url + "?silentrefreshframe=true",
-            post_logout_redirect_uri: authenticationSettings.client_url,
-            
-            authorization_url : authenticationSettings.authority + "/connect/authorize",
-            token_url : authenticationSettings.authority + "/connect/token",
-            userinfo_url: authenticationSettings.authority + "/connect/userinfo",
-            
-            load_user_profile: true,
-            silent_renew: true,
-        };
-        
-        
-        let settings = 
-        {
-            clientId: this.AuthenticationManagerSettings.client_id,
-            clientSecret: 'secret',
-            accessTokenUri: this.AuthenticationManagerSettings.token_url,
-            authorizationUri: this.AuthenticationManagerSettings.authorization_url,
-            userInfoUri: this.AuthenticationManagerSettings.userinfo_url,
+            clientId: authenticationSettings.clientId,
+            clientSecret: authenticationSettings.clientSecret,
+            accessTokenUri: authenticationSettings.authority + "/connect/token",
+            authorizationUri: authenticationSettings.authority + "/connect/authorize",
+            userInfoUri: authenticationSettings.authority + "/connect/userinfo",
             authorizationGrants: ['credentials'],
-            redirectUri: this.AuthenticationManagerSettings.redirect_uri,
-            scopes: this.AuthenticationManagerSettings.scope.split(' ')
+            redirectUri: authenticationSettings.client_url,
+            scopes: authenticationSettings.scope
         };
-        
-        this.clientOAuth2 = new OpenIDConnectClient.ClientOAuth2(settings);
+
+        this.clientOAuth2 = new OpenIDConnectClient.ClientOAuth2(this.AuthenticationManagerSettings);
     }
     
     protected ProcessTokenIfNeeded()
