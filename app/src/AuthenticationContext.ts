@@ -134,7 +134,7 @@ export class AuthenticationContext
             }
             else
             {
-                throw "Should be unitializated to initialize. You are missing the force parameter?";
+                console.debug("Should be unitializated to initialize. You are missing the force parameter?");
             }
         }
         
