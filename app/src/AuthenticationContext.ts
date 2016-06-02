@@ -113,6 +113,7 @@ export class AuthenticationContext
             clientSecret: 'secret',
             accessTokenUri: this.AuthenticationManagerSettings.token_url,
             authorizationUri: this.AuthenticationManagerSettings.authorization_url,
+            userInfoUri: this.AuthenticationManagerSettings.userinfo_url,
             authorizationGrants: ['credentials'],
             redirectUri: this.AuthenticationManagerSettings.redirect_uri,
             scopes: this.AuthenticationManagerSettings.scope.split(' ')
@@ -248,7 +249,7 @@ export class AuthenticationContext
         return tokenContents;
     }
 
-    protected get AccessTokenContent(): any 
+    protected get AccessToken(): string 
     {
         if (this.clientOAuth2 != null)
         {
@@ -263,35 +264,58 @@ export class AuthenticationContext
         }
         return null;
     }
+
+    protected get AccessTokenContent(): any 
+    {
+        if (this.AccessToken != null)
+        {
+            let content = btoa(this.AccessToken.split('.')[1]);
+            let retorno = JSON.parse(content);
+            return retorno;
+        }
+        return null;
+    }
     
-    // protected get IdentityTokenContent(): any
-    // {
-    //     if(this.oidcTokenManager != null)
-    //     {
-    //         if(this.oidcTokenManager.id_token != null)
-    //         {
-    //             let identityTokenContent = this.oidcTokenManager.id_token.split('.')[1];
-    //             if(identityTokenContent != null)
-    //             {
-    //                 let valor = JSON.parse(atob(identityTokenContent));
-    //                 return valor;
-    //             }
-    //         }
-    //     }
-    // }
+    protected get IdentityToken(): string 
+    {
+        if (this.clientOAuth2 != null)
+        {
+            let tokenUri = localStorage.getItem('TokenUri');
+            
+            if(tokenUri != null)
+            {
+                let clientOAuth2Token = this.clientOAuth2.token.getToken(tokenUri);
+                return clientOAuth2Token.identityToken;
+            }
+            return null;
+        }
+        return null;
+    }
+
+    protected get IdentityTokenContent(): any 
+    {
+        if (this.IdentityToken != null)
+        {
+            let content = btoa(this.IdentityToken.split('.')[1]);
+            let retorno = JSON.parse(content);
+            return retorno;
+        }
+        return null;
+    }
     
-    // protected get ProfileContent(): any
-    // {
-    //     if(this.oidcTokenManager != null)
-    //     {
-    //         if(this.oidcTokenManager.profile != null)
-    //         {
-    //             let valor = this.oidcTokenManager.profile;
-    //             return valor;
-    //         }
-    //     }
-    //     return null;
-    // }
+    protected get ProfileContent(): any
+    {
+        if (this.clientOAuth2 != null)
+        {
+            if(this.AccessToken != null)
+            {
+                let userInfoResponse = this.clientOAuth2.token.getUserInfo(this.AccessToken);
+                return userInfoResponse;
+            }
+            return null;
+        }
+        return null;
+    }
 
     // //TODO: Split the parser to another project (package - ts-security-tokens?)
     // //Include refactory at the ts-security-identity also

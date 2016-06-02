@@ -16,7 +16,11 @@ export declare class AuthenticationContext {
     Login(openOnPopUp?: boolean): void;
     IsAuthenticated: boolean;
     TokensContents: TokensContents;
+    protected AccessToken: string;
     protected AccessTokenContent: any;
+    protected IdentityToken: string;
+    protected IdentityTokenContent: any;
+    protected ProfileContent: any;
 }
 export declare class TokensContents {
     IsAuthenticated: boolean;
