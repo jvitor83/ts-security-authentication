@@ -108,6 +108,7 @@ export class AuthenticationContext
         {
             console.log('Processing token!');
             localStorage.setItem('TokenUri', location.href);
+            this.RedirectToInitialPage(this.AuthenticationManagerSettings.redirectUri);
         }
         // //if the actual page is the 'silent_redirect_uri' (loaded from the localStorage), then i consider to 'process the token callback'
         // else if (location.href.substring(0, this.AuthenticationManagerSettings.silent_redirect_uri.length) === this.AuthenticationManagerSettings.silent_redirect_uri)
