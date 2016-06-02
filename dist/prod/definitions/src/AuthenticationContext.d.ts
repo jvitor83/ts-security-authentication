@@ -26,8 +26,12 @@ export declare class TokensContents {
     IsAuthenticated: boolean;
     private _profileContent;
     ProfileContent: any;
+    private _accessToken;
+    AccessToken: string;
     private _accessTokenContent;
     AccessTokenContent: any;
+    private _identityToken;
+    IdentityToken: string;
     private _identityTokenContent;
     IdentityTokenContent: any;
     ToArray(): Array<any>;

@@ -220,7 +220,11 @@ export class AuthenticationContext
     public get TokensContents() : TokensContents
     {
         let tokenContents = new TokensContents();
-            
+
+        tokenContents.AccessToken = this.AccessToken;
+        tokenContents.IdentityToken = this.IdentityToken;
+        //tokenContents.Profile = this.ProfileContent;
+
         tokenContents.AccessTokenContent = this.AccessTokenContent;
         tokenContents.IdentityTokenContent = this.IdentityTokenContent;
         tokenContents.ProfileContent = this.ProfileContent;
@@ -341,6 +345,18 @@ export class TokensContents
     }
     
     
+    
+    private _accessToken: string;
+    public get AccessToken(): string
+    {
+        return this._accessToken;
+    }
+    public set AccessToken(value: string)
+    {
+        this._accessToken = value;
+    }
+    
+    
     private _accessTokenContent: any;
     public get AccessTokenContent(): any
     {
@@ -349,6 +365,20 @@ export class TokensContents
     public set AccessTokenContent(value: any)
     {
         this._accessTokenContent = value;
+    }
+    
+    
+    
+    
+    
+    private _identityToken: string;
+    public get IdentityToken(): string
+    {
+        return this._identityToken;
+    }
+    public set IdentityToken(value: string)
+    {
+        this._identityToken = value;
     }
     
     
