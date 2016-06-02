@@ -1,7 +1,7 @@
 export interface IAuthenticationManagerSettings
 {
     clientId: string;
-    clientSecret: string;
+    clientSecret?: string;
     accessTokenUri: string;
     authorizationUri: string;
     userInfoUri: string;
