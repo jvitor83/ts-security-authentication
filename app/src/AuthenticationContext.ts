@@ -88,7 +88,7 @@ export class AuthenticationContext
             defaultRedirectUri = location.href;
         }
         
-        console.debug(defaultRedirectUri);
+        console.log(defaultRedirectUri);
         //Set default values if not informed
         authenticationSettings.client_url = authenticationSettings.client_url || defaultRedirectUri; //Self uri
         authenticationSettings.scope = authenticationSettings.scope || [ 'openid', 'profile', 'email', 'offline_access' ]; //OpenId default scopes
