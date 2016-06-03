@@ -78,8 +78,18 @@ export class AuthenticationContext
             throw "Should be informed at least 'authority' and 'client_id'!";
         }
         
+        let defaultRedirectUri : string = null;
+        if(location.protocol.indexOf('file:') > -1)
+        {
+            defaultRedirectUri = 'urn:ietf:wg:oauth:2.0:oob:auto';
+        }
+        else
+        {
+            defaultRedirectUri = location.href;
+        }
+        
         //Set default values if not informed
-        authenticationSettings.client_url = authenticationSettings.client_url || location.href; //Self uri
+        authenticationSettings.client_url = authenticationSettings.client_url || defaultRedirectUri; //Self uri
         authenticationSettings.scope = authenticationSettings.scope || [ 'openid', 'profile', 'email', 'offline_access' ]; //OpenId default scopes
         authenticationSettings.response_type = authenticationSettings.response_type || 'code id_token token'; //Hybrid flow at default
         //authenticationSettings.open_on_popup = authenticationSettings.open_on_popup || false; //Redirect for default
